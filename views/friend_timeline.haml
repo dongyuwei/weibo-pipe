@@ -45,7 +45,7 @@
     .weibo
       %img{:src => weibo.user.profile_image_url, :class => "avatar" }
       %span.text
-        %a{:href => "http://t.sina.com.cn/#{weibo.user.id}", :target => "_blank"}=weibo.user.screen_name
+        %a{:href => "http://weibo.com/#{weibo.user.id}", :target => "_blank"}=weibo.user.screen_name
         %span=weibo.text
         %br
         %span=DateTime.parse(weibo.created_at).strftime('%Y-%m-%d %H:%M:%S').to_s
@@ -57,7 +57,7 @@
         .retweeted_status
           %img{:src => weibo.retweeted_status.user.profile_image_url, :class => "avatar" }
           %span.text
-            %a{:href => "http://t.sina.com.cn/#{weibo.user.id}", :target => "_blank"}=weibo.retweeted_status.user.screen_name
+            %a{:href => "http://weibo.com/#{weibo.user.id}", :target => "_blank"}=weibo.retweeted_status.user.screen_name
             %span=weibo.retweeted_status.text
             %br
             %span=DateTime.parse(weibo.retweeted_status.created_at).strftime('%Y-%m-%d %H:%M:%S').to_s
