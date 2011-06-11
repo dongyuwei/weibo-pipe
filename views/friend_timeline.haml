@@ -1,0 +1,67 @@
+!!!
+%html(xml:lang='en' lang='en' xmlns='http://www.w3.org/1999/xhtml')
+  %head
+    %meta(content='text/html;charset=UTF-8' http-equiv='content-type')
+    %title="分享微博订阅"
+    :css
+        .weibo {
+          float: left;
+          clear: left;
+          padding: 10px;
+          width: 483px;
+          border: 1px solid #242424;
+          margin-left: 200px;
+          margin-bottom: 10px; }
+
+        img.avatar {
+          float: left;
+          display: inline; }
+
+        span.text {
+          float: left;
+          display: inline;
+          width: 400px;
+          margin-left: 10px; }
+
+        img.thumbnail_pic {
+          clear: left;
+          float: left; }
+
+        .retweeted_status {
+          background: #cccccc;
+          float: left;
+          clear: left;
+          padding: 10px;
+          border: 1px solid #242424; }
+        div.nickname{
+            position:fixed;
+            top:30px;
+            left:10px;
+        }
+              
+  %body
+  %div.nickname #{@nickname}  分享的微博
+  -@timeline.each do |weibo|
+    .weibo
+      %img{:src => weibo.user.profile_image_url, :class => "avatar" }
+      %span.text
+        %a{:href => "http://t.sina.com.cn/#{weibo.user.id}", :target => "_blank"}=weibo.user.screen_name
+        %span=weibo.text
+        %br
+        %span=DateTime.parse(weibo.created_at).strftime('%Y-%m-%d %H:%M:%S').to_s
+        -if weibo.thumbnail_pic
+          %br
+          %a{:href => weibo.original_pic, :target => "_blank"}
+            %img{:src => weibo.thumbnail_pic, :class => "thumbnail_pic", :alt => weibo.original_pic}
+      -if weibo.retweeted_status
+        .retweeted_status
+          %img{:src => weibo.retweeted_status.user.profile_image_url, :class => "avatar" }
+          %span.text
+            %a{:href => "http://t.sina.com.cn/#{weibo.user.id}", :target => "_blank"}=weibo.retweeted_status.user.screen_name
+            %span=weibo.retweeted_status.text
+            %br
+            %span=DateTime.parse(weibo.retweeted_status.created_at).strftime('%Y-%m-%d %H:%M:%S').to_s
+            -if weibo.retweeted_status.thumbnail_pic
+              %br
+              %a{:href => weibo.retweeted_status.original_pic, :target => "_blank"}
+                %img{:src => weibo.retweeted_status.thumbnail_pic, :class => "thumbnail_pic", :alt => weibo.retweeted_status.original_pic}
