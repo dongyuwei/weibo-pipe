@@ -1,4 +1,4 @@
-%w(rubygems sinatra redis haml oauth json weibo sass date).each { |lib| require lib }
+%w(rubygems sinatra redis haml oauth json weibo  date).each { |lib| require lib }
 
 enable :sessions
 
