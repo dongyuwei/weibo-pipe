@@ -11,7 +11,7 @@ get '/' do
   if session[:atoken]
     redirect "/list"
   end
-  "<a href='/connect'>授权，分享微博订阅</a>"
+  "<a href='/connect'>授权，分享微博订阅</a><br><a href='/list'>变身（查看网友分享的微博订阅）</a>"
 end
 
 get "/list/:key" do |key|
@@ -20,7 +20,7 @@ get "/list/:key" do |key|
       oauth.authorize_from_access(list[1], list[2])
       @nickname = list[0]
       @uid = key
-      @timeline = Weibo::Base.new(oauth).friends_timeline({ 'count' => 50})
+      @timeline = Weibo::Base.new(oauth).friends_timeline({ 'count' => 20})
       Haml::Engine.new(File.read("./views/friend_timeline.haml")).render(self)
 end
     
