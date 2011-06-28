@@ -15,13 +15,19 @@ get '/' do
 end
 
 get "/list/:key" do |key|
-      list = REDIS.get(key).split("&")
-      oauth = Weibo::OAuth.new(Weibo::Config.api_key, Weibo::Config.api_secret)
-      oauth.authorize_from_access(list[1], list[2])
-      @nickname = list[0]
-      @uid = key
-      @timeline = Weibo::Base.new(oauth).friends_timeline({ 'count' => 20})
-      Haml::Engine.new(File.read("./views/friend_timeline.haml")).render(self)
+      v = REDIS.get(key)
+      if v
+        list = v.split("&")
+        oauth = Weibo::OAuth.new(Weibo::Config.api_key, Weibo::Config.api_secret)
+        oauth.authorize_from_access(list[1], list[2])
+        @nickname = list[0]
+        @uid = key
+        @timeline = Weibo::Base.new(oauth).friends_timeline({ 'count' => 20})
+        Haml::Engine.new(File.read("./views/friend_timeline.haml")).render(self)
+      else
+        redirect "/list"
+      end
+      
 end
     
 get "/list" do
